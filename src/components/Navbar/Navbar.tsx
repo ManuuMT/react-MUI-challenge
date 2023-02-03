@@ -18,8 +18,14 @@ import {
 const Navbar: React.FC = () => {
   return (
     <React.Fragment>
-      <AppBar sx={{ padding: "20px 1%" }}>
-        <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+      <AppBar sx={{ padding: "20px 1vw" }}>
+        <Toolbar
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            padding: "0px !important",
+          }}
+        >
           <Box
             sx={{
               display: "flex",
