@@ -1,3 +1,4 @@
+import "./App.css";
 import { CartPage } from "./pages";
 
 function App() {
