@@ -1,7 +1,7 @@
 import { createTheme } from "@mui/material/styles";
 
 export enum themePalette {
-  Dark01 = "#091625",
+  DarkBlue = "#091625",
   Dark03 = "#3A4451",
   Dark04 = "#535C67",
   Dark05 = "#6B737C",
@@ -13,7 +13,7 @@ export enum themePalette {
 export const theme = createTheme({
   palette: {
     primary: {
-      main: themePalette.Dark01,
+      main: themePalette.DarkBlue,
     },
   },
 });
