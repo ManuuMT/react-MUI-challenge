@@ -6,6 +6,7 @@ export enum CartItemType {
 interface CommonCartItemProps {
   name: string;
   value?: number;
+  id: string;
 }
 
 type Product = CommonCartItemProps & {
