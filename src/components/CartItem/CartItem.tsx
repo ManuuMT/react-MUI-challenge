@@ -27,6 +27,21 @@ const CartItem: React.FC<CartItemInterface> = (props) => {
     setValue(newValue);
     props.calculatedValue(newValue);
   };
+  const DeleteBuilder = () => {
+    props.itemData.type === CartItemType.Product ? (
+      <Box
+        sx={{ display: "flex", cursor: "pointer", alignItems: "center" }}
+        onClick={props.deleteItem}
+      >
+        <DeleteOutlinedIcon />
+        <Typography variant="caption" sx={{ fontWeight: "bold" }}>
+          Remove
+        </Typography>
+      </Box>
+    ) : (
+      ""
+    );
+  };
 
   // * Life Cycle
   useEffect(() => CalculateValue(), [counter]);
@@ -43,9 +58,38 @@ const CartItem: React.FC<CartItemInterface> = (props) => {
         sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}
       >
         <Box sx={{ display: "flex", gap: "16px" }}>
-          <EmptyImageBox />
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "8px",
+            }}
+          >
+            {props.itemData.image ? (
+              <img
+                {...props.itemData.image}
+                style={{ width: "120px", height: "120px" }}
+              />
+            ) : (
+              <EmptyImageBox />
+            )}
+            {props.itemData.type === CartItemType.Pack && (
+              <Typography
+                sx={{
+                  fontWeight: "semibold",
+                  fontSize: "10px",
+                  color: "rgba(0,0,0,0.4)",
+                  backgroundColor: "rgba(0,0,0,0.1)",
+                  padding: "2px 4px",
+                }}
+              >
+                PACK
+              </Typography>
+            )}
+          </Box>
           <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <Typography sx={{ fontWeight: "bold" }}>
+            <Typography variant="h6" sx={{ fontWeight: "bold" }}>
               {props.itemData.name}
             </Typography>
             <Box
@@ -57,7 +101,9 @@ const CartItem: React.FC<CartItemInterface> = (props) => {
                 marginBottom: "16px",
               }}
             >
-              <Typography sx={{ fontWeight: "bold" }}>Quantity: </Typography>
+              <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
+                Quantity:
+              </Typography>
               <Box sx={{ minWidth: 120 }}>
                 <NativeSelect
                   value={counter}
@@ -75,29 +121,68 @@ const CartItem: React.FC<CartItemInterface> = (props) => {
             {props.itemData.type === CartItemType.Pack && (
               <ul style={{ marginBottom: "22px" }}>
                 {props.itemData.content.map((product) => (
-                  <li
-                    key={product.name}
-                    style={{ display: "flex", gap: "5px" }}
-                  >
-                    <Typography sx={{ fontWeight: "bold" }}>
-                      {`${product.name}: `}
-                    </Typography>
-                    <Typography
-                      sx={{ fontWeight: "bold", color: "rgba(0,0,0,0.4)" }}
-                    >
-                      {`${product.description}`}
-                    </Typography>
+                  <li key={product.name}>
+                    <Box sx={{ display: "flex", gap: "5px" }}>
+                      <Typography
+                        variant="subtitle2"
+                        sx={{ fontWeight: "bold" }}
+                      >
+                        {`${product.name}: `}
+                      </Typography>
+                      <Typography
+                        variant="subtitle2"
+                        sx={{ fontWeight: "bold", color: "rgba(0,0,0,0.4)" }}
+                      >
+                        {`${product.description}`}
+                      </Typography>
+                    </Box>
                   </li>
                 ))}
               </ul>
             )}
-            <Box
-              sx={{ display: "flex", cursor: "pointer" }}
-              onClick={props.deleteItem}
-            >
-              <DeleteOutlinedIcon />
-              <Typography sx={{ fontWeight: "bold" }}>Remove</Typography>
-            </Box>
+            {props.itemData.type === CartItemType.Product ? (
+              <Box
+                onClick={props.deleteItem}
+                sx={{
+                  display: "flex",
+                  cursor: "pointer",
+                  alignItems: "center",
+                }}
+              >
+                <DeleteOutlinedIcon />
+                <Typography variant="caption" sx={{ fontWeight: "bold" }}>
+                  Remove
+                </Typography>
+              </Box>
+            ) : (
+              <Box
+                sx={{
+                  display: "flex",
+                }}
+              >
+                <Typography
+                  variant="caption"
+                  sx={{ fontWeight: "bold", cursor: "pointer" }}
+                >
+                  Edit Pack
+                </Typography>
+                <Box
+                  sx={{
+                    width: "2px",
+                    height: "85%",
+                    backgroundColor: "rgba(0,0,0,0.2)",
+                    mx: 1,
+                  }}
+                />
+                <Typography
+                  onClick={props.deleteItem}
+                  variant="caption"
+                  sx={{ fontWeight: "bold", cursor: "pointer" }}
+                >
+                  Remove
+                </Typography>
+              </Box>
+            )}
           </Box>
         </Box>
         <Box sx={{ textAlign: "right" }}>

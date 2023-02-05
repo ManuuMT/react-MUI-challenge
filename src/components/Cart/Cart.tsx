@@ -51,12 +51,14 @@ const Cart: React.FC = () => {
         <Box sx={{ display: "flex", width: "100%" }}>
           <Box sx={{ display: "flex", flexDirection: "column", width: "70%" }}>
             <Box
-              sx={{ display: "flex", alignItems: "center", mt: 4, gap: "5px" }}
+              sx={{ display: "flex", alignItems: "center", mt: 4, gap: "8px" }}
             >
               <Typography variant="h5" sx={{ fontWeight: "bold" }}>
                 Your cart
               </Typography>
-              <Typography>{`(${items.length})`}</Typography>
+              <Typography
+                sx={{ fontWeight: "bold", color: "rgba(0,0,0,0.4)" }}
+              >{`(${items.length})`}</Typography>
             </Box>
             <Box sx={{ display: "flex", width: "100%" }}>
               <List sx={{ width: "100%" }}>

@@ -1,4 +1,5 @@
 import { CartItemProps, CartItemType } from "../../models";
+import xmasPack from "../../assets/img/xmasPack.png";
 
 export const categoriesList = [
   "All products",
@@ -13,6 +14,12 @@ export const cartItemsArray: CartItemProps[] = [
   {
     name: "My Christmas pack",
     type: CartItemType.Pack,
+    id: "1",
+    value: 71.2,
+    image: {
+      src: xmasPack,
+      alt: "x-mas pack",
+    },
     content: [
       {
         name: "Cardborad box",
@@ -33,8 +40,6 @@ export const cartItemsArray: CartItemProps[] = [
         id: "6",
       },
     ],
-    id: "1",
-    value: 71.2,
   },
   {
     name: "Basic T-Shirt",

@@ -3,10 +3,16 @@ export enum CartItemType {
   Pack = "Pack",
 }
 
+type imageDTO = {
+  src: string;
+  alt: string;
+};
+
 interface CommonCartItemProps {
   name: string;
   value?: number;
   id: string;
+  image?: imageDTO;
 }
 
 type Product = CommonCartItemProps & {
