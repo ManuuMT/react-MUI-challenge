@@ -1,5 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { CategoriesWrapper } from "./Cart.styled";
+import React, { useState } from "react";
+import {
+  CategoriesWrapper,
+  CheckoutButton,
+  ContinueButton,
+} from "./Cart.styled";
 import List from "@mui/material/List";
 import ListItemText from "@mui/material/ListItemText";
 import ListItem from "@mui/material/ListItem";
@@ -8,10 +12,12 @@ import { CartItem } from "../CartItem";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { categoriesList, cartItemsArray } from "./Cart+Helper";
+import Divider from "@mui/material/Divider";
 
 const Cart: React.FC = () => {
   // * States
-  const [total, setTotal] = useState<number[]>([0, 0, 0]);
+  const [total, setTotal] = useState<number[]>([]);
+  const [items, setItems] = useState(cartItemsArray);
 
   // * Methods
   const SetTotalArray = (val: number, i: number) => {
@@ -22,6 +28,10 @@ const Cart: React.FC = () => {
   };
 
   const CalculateTotal = () => total.reduce((acc, cv) => acc + cv, 0);
+
+  const DeleteItem = (id: string) => {
+    setItems(items.filter((item) => item.id != id));
+  };
 
   return (
     <>
@@ -40,16 +50,22 @@ const Cart: React.FC = () => {
       <Container>
         <Box sx={{ display: "flex", width: "100%" }}>
           <Box sx={{ display: "flex", flexDirection: "column", width: "70%" }}>
-            <Typography variant="h5" sx={{ mt: 4, fontWeight: "bold" }}>
-              Your cart
-            </Typography>
+            <Box
+              sx={{ display: "flex", alignItems: "center", mt: 4, gap: "5px" }}
+            >
+              <Typography variant="h5" sx={{ fontWeight: "bold" }}>
+                Your cart
+              </Typography>
+              <Typography>{`(${items.length})`}</Typography>
+            </Box>
             <Box sx={{ display: "flex", width: "100%" }}>
               <List sx={{ width: "100%" }}>
-                {cartItemsArray.map((item, i) => (
+                {items?.map((item, i) => (
                   <CartItem
                     itemData={item}
                     key={item.name}
                     calculatedValue={(val) => SetTotalArray(val, i)}
+                    deleteItem={() => DeleteItem(item.id)}
                   />
                 ))}
               </List>
@@ -59,14 +75,36 @@ const Cart: React.FC = () => {
             <Typography variant="h5" sx={{ mt: 4, fontWeight: "bold" }}>
               Order Summary
             </Typography>
-            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-              <Typography>Number of items</Typography>
-              <Typography>{cartItemsArray.length}</Typography>
+            <Box
+              sx={{ display: "flex", justifyContent: "space-between", mt: 3 }}
+            >
+              <Typography sx={{ color: "rgba(0,0,0,0.6)" }}>
+                Number of items
+              </Typography>
+              <Typography sx={{ color: "rgba(0,0,0,0.6)" }}>
+                {items.length}
+              </Typography>
             </Box>
-            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-              <Typography>Total: </Typography>
-              <Typography>{`$${CalculateTotal()}`}</Typography>
+            <Divider sx={{ my: 3 }} />
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                mb: 4,
+              }}
+            >
+              <Typography sx={{ fontWeight: "bold" }}>Total: </Typography>
+              <Typography
+                sx={{ fontWeight: "bold", fontSize: "24px" }}
+              >{`$${CalculateTotal()}`}</Typography>
             </Box>
+            <CheckoutButton variant="contained">
+              Proceed to Checkout
+            </CheckoutButton>
+            <ContinueButton variant="outlined">
+              Continue shopping
+            </ContinueButton>
           </Box>
         </Box>
       </Container>
