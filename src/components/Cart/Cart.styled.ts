@@ -5,6 +5,8 @@ export const CategoriesWrapper = styled("div")(({ theme }) => ({
   backgroundColor: theme.palette.action.disabledBackground,
   height: "64px",
   width: "100vw",
+  display: "flex",
+  alignItems: "center",
 }));
 
 export const EmptyImageBox = styled("div")(({ theme }) => ({
