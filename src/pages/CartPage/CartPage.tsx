@@ -1,5 +1,5 @@
 import React from "react";
-import { Navbar } from "../../components";
+import { Footer, Navbar } from "../../components";
 import { Cart } from "../../components/Cart";
 import { Recommend } from "../../components/Recommend";
 
@@ -9,6 +9,7 @@ const CartPage: React.FC = () => {
       <Navbar />
       <Cart />
       <Recommend />
+      <Footer />
     </>
   );
 };
