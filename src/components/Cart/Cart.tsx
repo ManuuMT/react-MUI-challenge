@@ -36,16 +36,18 @@ const Cart: React.FC = () => {
   return (
     <>
       <CategoriesWrapper>
-        <List sx={{ display: "flex", width: "70%" }}>
-          {categoriesList.map((category) => (
-            <ListItem key={category}>
-              <ListItemText
-                primary={category}
-                sx={{ color: "text.secondary" }}
-              />
-            </ListItem>
-          ))}
-        </List>
+        <Container>
+          <List sx={{ display: "flex", width: "70%" }}>
+            {categoriesList.map((category) => (
+              <ListItem key={category} sx={{ px: "0" }}>
+                <ListItemText
+                  primary={category}
+                  sx={{ color: "text.secondary" }}
+                />
+              </ListItem>
+            ))}
+          </List>
+        </Container>
       </CategoriesWrapper>
       <Container>
         <Box sx={{ display: "flex", width: "100%" }}>

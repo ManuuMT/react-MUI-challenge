@@ -51,7 +51,7 @@ const CartItem: React.FC<CartItemInterface> = (props) => {
       sx={{
         display: "flex",
         flexDirection: "column",
-        padding: "22px",
+        padding: "22px 22px 22px 0",
       }}
     >
       <Box

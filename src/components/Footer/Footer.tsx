@@ -27,6 +27,7 @@ const Footer: React.FC = () => {
                 flexDirection: "column",
                 gap: "24px",
                 width: "25%",
+                pt: 2,
               }}
             >
               <BoxWrapper>
