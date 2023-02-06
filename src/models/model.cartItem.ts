@@ -10,9 +10,10 @@ type imageDTO = {
 
 interface CommonCartItemProps {
   name: string;
-  value?: number;
+  value: number;
   id: string;
   image?: imageDTO;
+  quantity: number;
 }
 
 type Product = CommonCartItemProps & {

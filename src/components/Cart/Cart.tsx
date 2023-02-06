@@ -16,22 +16,29 @@ import Divider from "@mui/material/Divider";
 
 const Cart: React.FC = () => {
   // * States
-  const [total, setTotal] = useState<number[]>([]);
   const [items, setItems] = useState(cartItemsArray);
 
   // * Methods
-  const SetTotalArray = (val: number, i: number) => {
-    let newTotal = total;
-    newTotal[i] = val;
-    const newnewTotal = [...newTotal];
-    setTotal(newnewTotal);
+  const UpdateProducts = (q: number, id: string) => {
+    const productUpdated = items.map((product) =>
+      product.id === id
+        ? {
+            ...product,
+            quantity: q,
+          }
+        : product
+    );
+    setItems(productUpdated);
   };
 
-  const CalculateTotal = () => total.reduce((acc, cv) => acc + cv, 0);
+  const CalculateTotal = () => {
+    let sum = 0;
+    items.map((product) => (sum += product.value * product.quantity));
+    return sum;
+  };
 
-  const DeleteItem = (id: string) => {
+  const DeleteItem = (id: string) =>
     setItems(items.filter((item) => item.id != id));
-  };
 
   return (
     <>
@@ -39,7 +46,7 @@ const Cart: React.FC = () => {
         <Container>
           <List sx={{ display: "flex", width: "70%" }}>
             {categoriesList.map((category) => (
-              <ListItem key={category} sx={{ px: "0" }}>
+              <ListItem key={category} sx={{ py: "0" }}>
                 <ListItemText
                   primary={category}
                   sx={{ color: "text.secondary" }}
@@ -63,16 +70,22 @@ const Cart: React.FC = () => {
               >{`(${items.length})`}</Typography>
             </Box>
             <Box sx={{ display: "flex", width: "100%" }}>
-              <List sx={{ width: "100%" }}>
-                {items?.map((item, i) => (
-                  <CartItem
-                    itemData={item}
-                    key={item.name}
-                    calculatedValue={(val) => SetTotalArray(val, i)}
-                    deleteItem={() => DeleteItem(item.id)}
-                  />
-                ))}
-              </List>
+              {items.length === 0 ? (
+                <Typography variant="h5" sx={{ mt: 9 }}>
+                  Oops! Looks like your cart is empty...
+                </Typography>
+              ) : (
+                <List sx={{ width: "100%" }}>
+                  {items?.map((item) => (
+                    <CartItem
+                      itemData={item}
+                      key={item.name}
+                      handleChange={(q) => UpdateProducts(q, item.id)}
+                      deleteItem={() => DeleteItem(item.id)}
+                    />
+                  ))}
+                </List>
+              )}
             </Box>
           </Box>
           <Box sx={{ display: "flex", flexDirection: "column", width: "30%" }}>

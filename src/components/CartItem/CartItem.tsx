@@ -10,28 +10,26 @@ import Divider from "@mui/material/Divider";
 
 interface CartItemInterface {
   itemData: CartItemProps;
-  calculatedValue: (val: number) => void;
   deleteItem: () => void;
+  handleChange: (q: number) => void;
 }
 
 const CartItem: React.FC<CartItemInterface> = (props) => {
   // * States
-  const [counter, setCounter] = useState<string>("10");
-  const [value, setValue] = useState<number>();
+  const [quantity, setQuantity] = useState(props.itemData.quantity);
 
   // * Methods
-  const HandleChange = (e: any) => setCounter(e.target.value);
-  const CalculateValue = () => {
-    const newValue =
-      (props.itemData.value! * Math.floor(Number(counter) * 100)) / 100;
-    setValue(newValue);
-    props.calculatedValue(newValue);
-  };
-  const DeleteBuilder = () => {
+  const HandleChange = (e: any) => setQuantity(e.target.value);
+
+  const DeleteBuilder = () =>
     props.itemData.type === CartItemType.Product ? (
       <Box
-        sx={{ display: "flex", cursor: "pointer", alignItems: "center" }}
         onClick={props.deleteItem}
+        sx={{
+          display: "flex",
+          cursor: "pointer",
+          alignItems: "center",
+        }}
       >
         <DeleteOutlinedIcon />
         <Typography variant="caption" sx={{ fontWeight: "bold" }}>
@@ -39,12 +37,37 @@ const CartItem: React.FC<CartItemInterface> = (props) => {
         </Typography>
       </Box>
     ) : (
-      ""
+      <Box
+        sx={{
+          display: "flex",
+        }}
+      >
+        <Typography
+          variant="caption"
+          sx={{ fontWeight: "bold", cursor: "pointer" }}
+        >
+          Edit Pack
+        </Typography>
+        <Box
+          sx={{
+            width: "2px",
+            height: "85%",
+            backgroundColor: "rgba(0,0,0,0.2)",
+            mx: 1,
+          }}
+        />
+        <Typography
+          onClick={props.deleteItem}
+          variant="caption"
+          sx={{ fontWeight: "bold", cursor: "pointer" }}
+        >
+          Remove
+        </Typography>
+      </Box>
     );
-  };
 
   // * Life Cycle
-  useEffect(() => CalculateValue(), [counter]);
+  useEffect(() => props.handleChange(quantity), [quantity]);
 
   return (
     <ListItem
@@ -106,7 +129,7 @@ const CartItem: React.FC<CartItemInterface> = (props) => {
               </Typography>
               <Box sx={{ minWidth: 120 }}>
                 <NativeSelect
-                  value={counter}
+                  value={quantity}
                   onChange={HandleChange}
                   sx={{ fontWeight: "bold" }}
                 >
@@ -140,49 +163,7 @@ const CartItem: React.FC<CartItemInterface> = (props) => {
                 ))}
               </ul>
             )}
-            {props.itemData.type === CartItemType.Product ? (
-              <Box
-                onClick={props.deleteItem}
-                sx={{
-                  display: "flex",
-                  cursor: "pointer",
-                  alignItems: "center",
-                }}
-              >
-                <DeleteOutlinedIcon />
-                <Typography variant="caption" sx={{ fontWeight: "bold" }}>
-                  Remove
-                </Typography>
-              </Box>
-            ) : (
-              <Box
-                sx={{
-                  display: "flex",
-                }}
-              >
-                <Typography
-                  variant="caption"
-                  sx={{ fontWeight: "bold", cursor: "pointer" }}
-                >
-                  Edit Pack
-                </Typography>
-                <Box
-                  sx={{
-                    width: "2px",
-                    height: "85%",
-                    backgroundColor: "rgba(0,0,0,0.2)",
-                    mx: 1,
-                  }}
-                />
-                <Typography
-                  onClick={props.deleteItem}
-                  variant="caption"
-                  sx={{ fontWeight: "bold", cursor: "pointer" }}
-                >
-                  Remove
-                </Typography>
-              </Box>
-            )}
+            {DeleteBuilder()}
           </Box>
         </Box>
         <Box sx={{ textAlign: "right" }}>
@@ -191,7 +172,9 @@ const CartItem: React.FC<CartItemInterface> = (props) => {
           >{`$${props.itemData.value}`}</Typography>
           <Box sx={{ display: "flex", gap: "5px" }}>
             <Typography sx={{ fontWeight: "semibold" }}>Total: </Typography>
-            <Typography sx={{ fontWeight: "bold" }}>${value}</Typography>
+            <Typography sx={{ fontWeight: "bold" }}>
+              ${props.itemData.value * quantity}
+            </Typography>
           </Box>
         </Box>
       </Box>
